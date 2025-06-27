@@ -1,13 +1,9 @@
 from fastapi import FastAPI
+from routes import health_routes, jobs_routes
 
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.include_router(jobs_routes.router)
+app.include_router(health_routes.router)
 
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}

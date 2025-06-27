@@ -1,8 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
-from starlette import schemas
-
+from schemas import job
 router = APIRouter(
     prefix="/jobs",
     tags=["jobs"],
@@ -10,12 +9,12 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=List[schemas.Job])
+@router.get("/", response_model=List[job.JobList])
 async def get_all_jobs():
     pass
 
 
-@router.get("/{job_id}", response_model=schemas.Job)
+@router.get("/{job_id}", response_model=job.JobDetails)
 async def get_job(job_id: str):
     pass
 
