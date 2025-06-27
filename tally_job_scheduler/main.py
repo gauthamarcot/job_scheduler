@@ -2,8 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.exc import OperationalError
 from sqlmodel import Session, select
 
-from routes import jobs_routes
-from utils import get_session
+from .routes import jobs_routes
+from .utils import get_session
 app = FastAPI()
 
 

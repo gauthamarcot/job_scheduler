@@ -30,6 +30,15 @@ class JobDetails(BaseModel):
     completed_at: Optional[datetime] = None
 
 
+class JobSubmission(BaseModel):
+    type: Optional[str]
+    job_id: uuid.UUID
+    payload: Dict[str, Any]
+    resource_requirements: ResourceRequirements
+    depends_on: Optional[List[uuid.UUID]] = Field(default_factory=list)
+    retry_config: Optional[RetryConfig] = Field(default_factory=RetryConfig)
+
+
 class JobSubmissionResponse(BaseModel):
     job_id: uuid.UUID
     status: str

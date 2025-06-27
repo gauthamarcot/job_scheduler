@@ -1,7 +1,13 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
-from schemas import job
+from sqlmodel import Session
+from starlette import status
+
+from ..schema import job
+from ..schema.job import JobSubmission
+from ..utils import get_session
+
 router = APIRouter(
     prefix="/jobs",
     tags=["jobs"],
@@ -24,9 +30,16 @@ async def get_job_logs(job_id: str):
     pass
 
 
-@router.post("/")
-async def submit_jobs():
-    pass
+@router.post("/", response_model=job.JobSubmissionResponse, status_code=201)
+async def submit_jobs(job_sub: JobSubmission, session: Session = Depends(get_session)):
+    try:
+        created_job = create_new_job(job_sub, session)
+        return created_job
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=str(e),
+        )
 
 
 @router.patch("/{job_id}/cancel")
