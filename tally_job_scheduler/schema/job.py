@@ -7,6 +7,9 @@ from typing import List, Dict, Any, Optional
 class ResourceRequirements(BaseModel):
     cpu_units: int = 1
     memory_mb: int = 512
+    gpu_units: Optional[int] = None
+    disk_gb: Optional[int] = None
+    additional_resources: Optional[Dict[str, Any]] = Field(default_factory=dict)
 
 
 class RetryConfig(BaseModel):
@@ -37,6 +40,7 @@ class JobSubmission(BaseModel):
     job_id: uuid.UUID
     payload: Dict[str, Any]
     resource_requirements: ResourceRequirements
+    priority: str = "normal"
     depends_on: Optional[List[uuid.UUID]] = Field(default_factory=list)
     retry_config: Optional[RetryConfig] = Field(default_factory=RetryConfig)
     timeout_seconds: Optional[int] = None

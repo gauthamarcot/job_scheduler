@@ -1,13 +1,13 @@
-from typing import List
+from typing import List, Optional
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session
 from starlette import status
 
 from ..schema import job
 from ..schema.job import JobSubmission, JobDetails
-from ..services.jobs_services import create_new_job, get_jobs, get_job_by_id, patch_job, get_logs_job
+from ..services.jobs_services import create_new_job, get_jobs, get_jobs_with_filters, get_job_by_id, patch_job, get_logs_job
 from ..utils import get_session
 
 router = APIRouter(
@@ -18,10 +18,16 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[JobDetails])
-async def get_all_jobs(session: Session = Depends(get_session)):
-    jobs_data = get_jobs(session)
-    if not jobs_data:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="jobs not found")
+async def get_all_jobs(
+    status: Optional[str] = Query(None, description="Filter by job status"),
+    job_type: Optional[str] = Query(None, description="Filter by job type"),
+    priority: Optional[str] = Query(None, description="Filter by job priority"),
+    session: Session = Depends(get_session)
+):
+    if status or job_type or priority:
+        jobs_data = get_jobs_with_filters(session, status, job_type, priority)
+    else:
+        jobs_data = get_jobs(session)
     return jobs_data
 
 

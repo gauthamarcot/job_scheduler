@@ -46,6 +46,7 @@ def create_new_job(job: JobSubmission, session: Session):
         "job_id": job.job_id,
         "type": job.type,
         "status": job_status,
+        "priority": job.priority,
         "payload": job.payload,
         "resource_requirements": job.resource_requirements.model_dump(),
         "retry_config": job.retry_config.model_dump(),
@@ -73,7 +74,19 @@ def create_new_job(job: JobSubmission, session: Session):
 
 def get_jobs(session: Session):
     jobs = session.exec(select(Job)).all()
-    return jobs
+    return jobs if jobs else []
+
+
+def get_jobs_with_filters(session: Session, status: str = None, job_type: str = None, priority: str = None):
+    query = select(Job)
+    if status:
+        query = query.where(Job.status == status)
+    if job_type:
+        query = query.where(Job.type == job_type)
+    if priority:
+        query = query.where(Job.priority == priority)
+    jobs = session.exec(query).all()
+    return jobs if jobs else []
 
 
 def get_job_by_filters(session: Session, status, job_type, priority) -> List[Job]:
