@@ -1,7 +1,16 @@
+import uuid
+from datetime import datetime
+from typing import List
+
+from fastapi import HTTPException
 from sqlmodel import Session
 
-from tally_job_scheduler.models.jobs import Job, JobDep
+from tally_job_scheduler.models.jobs import Job, JobDep, JobLog
 from tally_job_scheduler.schema.job import JobSubmission
+
+
+def _check_for_job_dep(new_job_id: uuid.UUID, dep: List[uuid.UUID], session: Session):
+    pass
 
 
 def create_new_job(job: JobSubmission, session: Session):
@@ -37,8 +46,20 @@ def get_jobs(session: Session):
     return jobs
 
 
-def get_job_by_id(session: Session, job_id):
-    job = session.query(Job).filter(Job.job_id == job_id).first()
+def get_job_by_filters(session: Session, status, job_type, priority) -> List[Job]:
+    query = session.query(Job)
+    if status:
+        query = query.filter(Job.status == status)
+    if job_type:
+        query = query.filter(Job.type == job_type)
+    if priority:
+        query = query.filter(Job.priority == priority)
+    jobs = query.all()
+    return jobs
+
+
+def get_job_by_id(session: Session, job_id: uuid.UUID) -> Job:
+    job = session.query(Job).filter(Job.id == job_id).first()
     return job
 
 
@@ -52,9 +73,20 @@ def patch_job(job: JobSubmission, session: Session):
         "resource_requirement": job.resource_requirements.model_dump(),
         "retry_config": job.retry_config.model_dump(),
     }
-    new_job = Job.validate(job_for_db)
-    session.add(new_job)
-    session.commit()
-    session.refresh(new_job)
+    cancellable_states = ["pending", "queued", "blocked"]
+    if job.status not in cancellable_states:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Job in status '{job.status}' cannot be cancelled."
+        )
 
-    return new_job
+    job.status = "cancelled"
+    job.updated_at = datetime.utcnow()
+    session.add(job)
+    session.commit()
+    session.refresh(job)
+    return job
+
+
+def get_logs_job(session: Session, job_id: uuid.UUID) -> List[JobLog]:
+    pass
