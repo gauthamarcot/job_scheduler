@@ -1,8 +1,11 @@
+import asyncio
+
 from fastapi import FastAPI, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from sqlalchemy.exc import OperationalError
 from sqlmodel import Session, select
 
 from .routes import jobs_routes
+from .services.simulation_services import simulate_job_process
 from .services.ws_services import ConnectionManager
 from .utils import get_session
 
@@ -10,6 +13,11 @@ app = FastAPI(swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}})
 manager = ConnectionManager()
 
 app.include_router(jobs_routes.router)
+
+
+@app.on_event("startup")
+def on_startup():
+    asyncio.create_task(simulate_job_process())
 
 
 @app.get("/health")

@@ -63,7 +63,7 @@ def create_new_job(job: JobSubmission, session: Session):
     if job.depends_on:
         for dependency in job.depends_on:
             dep_link = JobDep(
-                job_id=new_job.id,
+                job_id=new_job.job_id,
                 depends_on_job_id=dependency
             )
             session.add(dep_link)

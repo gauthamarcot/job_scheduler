@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf3a8bcc-47c4-4a6a-bc67-53240e34f9ef" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tally_job_scheduler/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tally_job_scheduler/services/jobs_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/services/jobs_services.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +63,7 @@
       <recent name="$PROJECT_DIR$/screenshots" />
     </key>
   </component>
-  <component name="RunManager" selected="FastAPI.tally_job_scheduler">
+  <component name="RunManager" selected="Python tests.Python tests for tally_job_scheduler.test.test_submit_job_with_dependencies">
     <configuration name="tally_job_scheduler" type="Python.FastAPI">
       <option name="file" value="$PROJECT_DIR$/tally_job_scheduler/main.py" />
       <module name="tally_job_scheduler" />
@@ -104,6 +106,22 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for tally_job_scheduler.test.test_submit_job_with_dependencies" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="tally_job_scheduler" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tally_job_scheduler.test.test_submit_job_with_dependencies&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest in test.py" type="tests" factoryName="py.test" nameIsGenerated="true">
       <module name="tally_job_scheduler" />
       <option name="ENV_FILES" value="" />
@@ -136,10 +154,12 @@
     <list>
       <item itemvalue="FastAPI.tally_job_scheduler" />
       <item itemvalue="Python tests.pytest in test.py" />
+      <item itemvalue="Python tests.Python tests for tally_job_scheduler.test.test_submit_job_with_dependencies" />
       <item itemvalue="Python tests.Python tests for tally_job_scheduler.test.test_submit_job_no_dependencies" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for tally_job_scheduler.test.test_submit_job_with_dependencies" />
         <item itemvalue="Python tests.Python tests for tally_job_scheduler.test.test_submit_job_no_dependencies" />
       </list>
     </recent_temporary>
@@ -161,7 +181,7 @@
       <option name="presentableId" value="Default" />
       <updated>1751035196172</updated>
       <workItem from="1751035197509" duration="64000" />
-      <workItem from="1751052418791" duration="19974000" />
+      <workItem from="1751052418791" duration="20360000" />
     </task>
     <servers />
   </component>
@@ -187,6 +207,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tally_job_scheduler$tally_job_scheduler.coverage" NAME="tally_job_scheduler Coverage Results" MODIFIED="1751078852412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/tally_job_scheduler$pytest_in_test_py.coverage" NAME="pytest in test.py Coverage Results" MODIFIED="1751062851538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/tally_job_scheduler$.coverage" NAME=" Coverage Results" MODIFIED="1751062691186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/tally_job_scheduler$.coverage" NAME=" Coverage Results" MODIFIED="1751079159072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
