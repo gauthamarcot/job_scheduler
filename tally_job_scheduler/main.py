@@ -6,7 +6,7 @@ from .routes import jobs_routes
 from .services.ws_services import ConnectionManager
 from .utils import get_session
 
-app = FastAPI()
+app = FastAPI(swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}})
 manager = ConnectionManager()
 
 app.include_router(jobs_routes.router)

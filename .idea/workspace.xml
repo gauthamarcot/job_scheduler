@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf3a8bcc-47c4-4a6a-bc67-53240e34f9ef" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tally_job_scheduler/services/simulation_services.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tally_job_scheduler/services/ws_services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tally_job_scheduler/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tally_job_scheduler/routes/jobs_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/routes/jobs_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tally_job_scheduler/services/jobs_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/services/jobs_services.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +161,7 @@
       <option name="presentableId" value="Default" />
       <updated>1751035196172</updated>
       <workItem from="1751035197509" duration="64000" />
-      <workItem from="1751052418791" duration="19630000" />
+      <workItem from="1751052418791" duration="19974000" />
     </task>
     <servers />
   </component>
@@ -192,7 +185,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/tally_job_scheduler$tally_job_scheduler.coverage" NAME="tally_job_scheduler Coverage Results" MODIFIED="1751069920464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/tally_job_scheduler$tally_job_scheduler.coverage" NAME="tally_job_scheduler Coverage Results" MODIFIED="1751078852412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/tally_job_scheduler$pytest_in_test_py.coverage" NAME="pytest in test.py Coverage Results" MODIFIED="1751062851538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/tally_job_scheduler$.coverage" NAME=" Coverage Results" MODIFIED="1751062691186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
