@@ -1,20 +1,47 @@
 import uuid
+from collections import deque
 from datetime import datetime
 from typing import List
 
 from fastapi import HTTPException
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from tally_job_scheduler.models.jobs import Job, JobDep, JobLog
 from tally_job_scheduler.schema.job import JobSubmission
 
 
-def _check_for_job_dep(new_job_id: uuid.UUID, dep: List[uuid.UUID], session: Session):
-    pass
+def _check_for_circular_dependency(new_job_id: uuid.UUID, dependencies: List[uuid.UUID], session: Session):
+
+    if not dependencies:
+        return
+
+    all_deps_query = select(JobDep)
+    all_deps_results = session.exec(all_deps_query).all()
+    adj_list = {}
+    for dep in all_deps_results:
+        if dep.job_id not in adj_list:
+            adj_list[dep.job_id] = []
+        adj_list[dep.job_id].append(dep.depends_on_job_id)
+    adj_list[new_job_id] = dependencies
+    q = deque(dependencies)
+    visited = set(dependencies)
+    while q:
+        current_dep_id = q.popleft()
+        if current_dep_id == new_job_id:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Circular dep detected. Job cannot depend on itself or its dependents."
+            )
+        if current_dep_id in adj_list:
+            for next_dep in adj_list[current_dep_id]:
+                if next_dep not in visited:
+                    visited.add(next_dep)
+                    q.append(next_dep)
 
 
 def create_new_job(job: JobSubmission, session: Session):
     job_status = "blocked" if job.depends_on else "pending"
+
     job_db = {
         "job_id": job.job_id,
         "type": job.type,
@@ -24,6 +51,10 @@ def create_new_job(job: JobSubmission, session: Session):
         "retry_config": job.retry_config.model_dump(),
 
     }
+    temp_new_job_id = str(uuid.uuid4())
+
+    _check_for_circular_dependency(temp_new_job_id, job.depends_on, session)
+
     new_job = Job.validate(job_db)
     session.add(new_job)
     session.commit()

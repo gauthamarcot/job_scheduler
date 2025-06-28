@@ -1,11 +1,13 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from sqlalchemy.exc import OperationalError
 from sqlmodel import Session, select
 
 from .routes import jobs_routes
+from .services.ws_services import ConnectionManager
 from .utils import get_session
-app = FastAPI()
 
+app = FastAPI()
+manager = ConnectionManager()
 
 app.include_router(jobs_routes.router)
 
@@ -36,3 +38,15 @@ async def health(session: Session = Depends(get_session)):
                 "details": str(e)
             }
         )
+
+
+@app.websocket("/jobs/ws/stream")
+async def websocket_endpoint(websocket: WebSocket):
+    await manager.connect(websocket)
+    print(f"Total clients: {len(manager.active_connections)}")
+    try:
+        while True:
+            await websocket.receive_text()  # Keep connection alive
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+        print(f"Client disconnected {len(manager.active_connections)}")

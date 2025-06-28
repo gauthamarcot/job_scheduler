@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: job_scheduler_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=toor@toor
+      - POSTGRES_DB=job_scheduler
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  api:
+    build: .
+    container_name: job_scheduler_api
+    command: uvicorn tally_job_scheduler.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:toor#toor@db:5432/job_scheduler
+
+volumes:
+  postgres_data:

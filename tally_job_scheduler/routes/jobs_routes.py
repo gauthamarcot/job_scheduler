@@ -43,7 +43,6 @@ async def submit_jobs(job_sub: JobSubmission, session: Session = Depends(get_ses
     return created_job
 
 
-
 @router.patch("/{job_id}/cancel")
 async def cancel_job(job_id: str):
     pass

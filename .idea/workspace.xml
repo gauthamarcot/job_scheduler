@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf3a8bcc-47c4-4a6a-bc67-53240e34f9ef" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tally_job_scheduler/services/simulation_services.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tally_job_scheduler/services/ws_services.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tally_job_scheduler/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tally_job_scheduler/routes/jobs_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/routes/jobs_routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tally_job_scheduler/services/jobs_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/tally_job_scheduler/services/jobs_services.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +25,7 @@
         <option value="FastAPI main" />
         <option value="FastAPI test_main" />
         <option value="Python Script" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -161,7 +168,7 @@
       <option name="presentableId" value="Default" />
       <updated>1751035196172</updated>
       <workItem from="1751035197509" duration="64000" />
-      <workItem from="1751052418791" duration="17059000" />
+      <workItem from="1751052418791" duration="19630000" />
     </task>
     <servers />
   </component>
