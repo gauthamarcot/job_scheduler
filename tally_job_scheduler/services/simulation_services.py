@@ -3,11 +3,11 @@ import json
 import random
 from datetime import datetime
 
-from sqlmodel import select
+from sqlmodel import Session, select
 
 from tally_job_scheduler.models.jobs import Job, JobLog
 from tally_job_scheduler.services.ws_services import ConnectionManager
-from tally_job_scheduler.utils import get_session
+from tally_job_scheduler.utils import engine
 
 manager = ConnectionManager()
 
@@ -15,7 +15,7 @@ manager = ConnectionManager()
 async def simulate_job_process():
     while True:  #infinate loop to check a new jobs and excuting
         await asyncio.sleep(10)
-        with get_session() as session:
+        with Session(engine) as session:
             stmt = select(Job).where(Job.status == "pending").order_by(Job.priority)
             job_to_process = session.exec(stmt).first()
             if job_to_process:
@@ -25,7 +25,7 @@ async def simulate_job_process():
                 session.commit()
                 session.refresh(job_to_process)
 
-                status_update = {"job_id": str(job_to_process.id), "status": job_to_process.status}
+                status_update = {"job_id": str(job_to_process.job_id), "status": job_to_process.status}
                 await manager.broadcast(json.dumps(status_update))
                 print(f"Simulating job: {job_to_process.job_id}")
 

@@ -47,15 +47,14 @@ def create_new_job(job: JobSubmission, session: Session):
         "type": job.type,
         "status": job_status,
         "payload": job.payload,
-        "resource_requirement": job.resource_requirements.model_dump(),
+        "resource_requirements": job.resource_requirements.model_dump(),
         "retry_config": job.retry_config.model_dump(),
-
+        "timeout_seconds": job.timeout_seconds
     }
-    temp_new_job_id = str(uuid.uuid4())
 
-    _check_for_circular_dependency(temp_new_job_id, job.depends_on, session)
+    _check_for_circular_dependency(job.job_id, job.depends_on, session)
 
-    new_job = Job.validate(job_db)
+    new_job = Job(**job_db)
     session.add(new_job)
     session.commit()
     session.refresh(new_job)
@@ -73,37 +72,32 @@ def create_new_job(job: JobSubmission, session: Session):
 
 
 def get_jobs(session: Session):
-    jobs = session.query(Job).all()
+    jobs = session.exec(select(Job)).all()
     return jobs
 
 
 def get_job_by_filters(session: Session, status, job_type, priority) -> List[Job]:
-    query = session.query(Job)
+    query = select(Job)
     if status:
-        query = query.filter(Job.status == status)
+        query = query.where(Job.status == status)
     if job_type:
-        query = query.filter(Job.type == job_type)
+        query = query.where(Job.type == job_type)
     if priority:
-        query = query.filter(Job.priority == priority)
-    jobs = query.all()
+        query = query.where(Job.priority == priority)
+    jobs = session.exec(query).all()
     return jobs
 
 
 def get_job_by_id(session: Session, job_id: uuid.UUID) -> Job:
-    job = session.query(Job).filter(Job.id == job_id).first()
+    job = session.exec(select(Job).where(Job.job_id == job_id)).first()
     return job
 
 
-def patch_job(job: JobSubmission, session: Session):
-    job_status = "cancelled"
-    job_for_db = {
-        "job_id": job.job_id,
-        "type": job.type,
-        "status": job_status,
-        "payload": job.payload,
-        "resource_requirement": job.resource_requirements.model_dump(),
-        "retry_config": job.retry_config.model_dump(),
-    }
+def patch_job(job_id: uuid.UUID, session: Session):
+    job = session.exec(select(Job).where(Job.job_id == job_id)).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
     cancellable_states = ["pending", "queued", "blocked"]
     if job.status not in cancellable_states:
         raise HTTPException(
@@ -120,4 +114,5 @@ def patch_job(job: JobSubmission, session: Session):
 
 
 def get_logs_job(session: Session, job_id: uuid.UUID) -> List[JobLog]:
-    pass
+    logs = session.exec(select(JobLog).where(JobLog.job_id == job_id)).all()
+    return logs

@@ -20,23 +20,26 @@ class JobDetails(BaseModel):
     status: str
     priority: str
     payload: Dict[str, Any]
-    resource_requirements: ResourceRequirements
-    depends_on: List[str]
-    retry_config: RetryConfig
+    resource_requirements: Dict[str, Any]
+    retry_config: Dict[str, Any]
     timeout_seconds: Optional[int]
     created_at: datetime
     updated_at: datetime
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
 
+    class Config:
+        from_attributes = True
+
 
 class JobSubmission(BaseModel):
-    type: Optional[str]
+    type: str
     job_id: uuid.UUID
     payload: Dict[str, Any]
     resource_requirements: ResourceRequirements
     depends_on: Optional[List[uuid.UUID]] = Field(default_factory=list)
     retry_config: Optional[RetryConfig] = Field(default_factory=RetryConfig)
+    timeout_seconds: Optional[int] = None
 
 
 class JobSubmissionResponse(BaseModel):
@@ -45,6 +48,9 @@ class JobSubmissionResponse(BaseModel):
     created_at: datetime
     priority: str
     position_in_queue: Optional[int] = None
+
+    class Config:
+        from_attributes = True
 
 
 class JobList(BaseModel):

@@ -11,13 +11,9 @@ DB_NAME = os.getenv("POSTGRES_DB", "postgres")
 
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-
-def get_db() -> Engine:
-    engine = create_engine(DATABASE_URL)
-    return engine
+engine = create_engine(DATABASE_URL)
 
 
 def get_session():
-    engine = get_db()
     with Session(engine) as session:
         yield session
