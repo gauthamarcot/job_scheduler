@@ -6,12 +6,18 @@ services:
     container_name: job_scheduler_db
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=toor@toor
+      - POSTGRES_PASSWORD=toor#toor
       - POSTGRES_DB=job_scheduler
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  redis:
+    image: redis:7-alpine
+    container_name: job_scheduler_redis
+    ports:
+      - "6379:6379"
 
   api:
     build: .
@@ -23,8 +29,23 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - redis
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:toor%40toor@db:5432/job_scheduler
+      - REDIS_URL=redis://redis:6379/0
+
+  worker:
+    build: .
+    container_name: job_scheduler_worker
+    command: celery -A tally_job_scheduler.celery_app.celery_app worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
     environment:
       - DATABASE_URL=postgresql+psycopg2://postgres:toor#toor@db:5432/job_scheduler
+      - REDIS_URL=redis://redis:6379/0
 
 volumes:
   postgres_data:

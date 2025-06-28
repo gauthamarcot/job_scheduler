@@ -16,7 +16,7 @@ class RetryConfig(BaseModel):
 
 class JobDetails(BaseModel):
     job_id: uuid.UUID
-    type: str
+    type: Optional[str] = None
     status: str
     priority: str
     payload: Dict[str, Any]
