@@ -6,9 +6,17 @@ from tally_job_scheduler.schema.job import JobSubmission
 
 def create_new_job(job: JobSubmission, session: Session):
 
-    new_job = Job.from_orm(job)
-    new_job.status = "blocked" if job.depends_on else "pending"
+    job_status = "blocked" if job.depends_on else "pending"
+    job_for_db = {
+        "job_id": job.job_id,
+        "type": job.type,
+        "status": job_status,
+        "payload": job.payload,
+        "resource_requirement": job.resource_requirements.model_dump(),
+        "retry_config": job.retry_config.model_dump(),
 
+    }
+    new_job = Job.validate(job_for_db)
     session.add(new_job)
     session.commit()
     session.refresh(new_job)

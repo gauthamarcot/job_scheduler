@@ -44,11 +44,11 @@ class Job(SQLModel, table=True):
     logs: List["JobLog"] = Relationship(back_populates="job")
     dependencies: List["JobDep"] = Relationship(
         back_populates="job",
-        sa_relationship_kwargs={"primaryjoin": "Job.job_id==JobDependency.job_id"}
+        sa_relationship_kwargs={"primaryjoin": "Job.job_id==JobDep.job_id"}
     )
     dependents: List["JobDep"] = Relationship(
         back_populates="dependent_job",
-        sa_relationship_kwargs={"primaryjoin": "Job.job_id==JobDependency.depends_on_job_id"}
+        sa_relationship_kwargs={"primaryjoin": "Job.job_id==JobDep.depends_on_job_id"}
     )
 
 
@@ -63,11 +63,11 @@ class JobDep(SQLModel, table=True):
     )
     job: Job = Relationship(
         back_populates="dependencies",
-        sa_relationship_kwargs={"primaryjoin": "JobDependency.job_id==Job.job_id"}
+        sa_relationship_kwargs={"primaryjoin": "JobDep.job_id==Job.job_id"}
     )
     dependent_job: Job = Relationship(
         back_populates="dependents",
-        sa_relationship_kwargs={"primaryjoin": "JobDependency.depends_on_job_id==Job.job_id"}
+        sa_relationship_kwargs={"primaryjoin": "JobDep.depends_on_job_id==Job.job_id"}
     )
 
 

@@ -6,6 +6,7 @@ from starlette import status
 
 from ..schema import job
 from ..schema.job import JobSubmission
+from ..services.jobs_services import create_new_job
 from ..utils import get_session
 
 router = APIRouter(
@@ -32,14 +33,9 @@ async def get_job_logs(job_id: str):
 
 @router.post("/", response_model=job.JobSubmissionResponse, status_code=201)
 async def submit_jobs(job_sub: JobSubmission, session: Session = Depends(get_session)):
-    try:
-        created_job = create_new_job(job_sub, session)
-        return created_job
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=str(e),
-        )
+    created_job = create_new_job(job_sub, session)
+    return created_job
+
 
 
 @router.patch("/{job_id}/cancel")

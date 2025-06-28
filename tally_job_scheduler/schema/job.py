@@ -5,13 +5,13 @@ from typing import List, Dict, Any, Optional
 
 
 class ResourceRequirements(BaseModel):
-    cpu_units: int
-    memory_mb: int
+    cpu_units: int = 1
+    memory_mb: int = 512
 
 
 class RetryConfig(BaseModel):
-    max_attempts: int
-    backoff_multiplier: int
+    max_attempts: int = 2
+    backoff_multiplier: int = 1
 
 
 class JobDetails(BaseModel):
