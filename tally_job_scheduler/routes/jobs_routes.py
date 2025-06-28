@@ -18,12 +18,18 @@ router = APIRouter(
 
 @router.get("/", response_model=List[job.JobList])
 async def get_all_jobs():
-    pass
+    jobs_data = get_all_jobs()
+    if not jobs_data:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="jobs not found")
+    return jobs_data
 
 
 @router.get("/{job_id}", response_model=job.JobDetails)
 async def get_job(job_id: str):
-    pass
+    job_data = get_job(job_id)
+    if job_data is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return job_data
 
 
 @router.get("/{job_id}/logs")
